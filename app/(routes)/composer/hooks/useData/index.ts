@@ -17,8 +17,6 @@ export const useData = () => {
     const { media, content } = data;
     const file = media?.[0];
 
-    console.log("File =>", file);
-
     const mediaId = null;
     // let mediaId = null;
 

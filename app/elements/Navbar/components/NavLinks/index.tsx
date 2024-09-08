@@ -24,6 +24,10 @@ export const NavLinks = ({
   const isAuthenticated = status === "authenticated";
   const toggleExpand = () => setIsExpanded((prev) => !prev);
 
+  const onLogout = async () => {
+    await signOut();
+  };
+
   return (
     <nav className="flex flex-col-reverse lg:flex-row justify-between w-full items-center">
       <div className={`${styles}`}>
@@ -68,7 +72,7 @@ export const NavLinks = ({
                 size="icon"
                 variant="ghost"
                 className="transition-all duration-300 ease-in-out"
-                onClick={() => signOut()}
+                onClick={onLogout}
               >
                 <ExitIcon className="h-6 w-6" />
               </Button>
