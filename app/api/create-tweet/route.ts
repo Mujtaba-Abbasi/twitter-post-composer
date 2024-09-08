@@ -33,8 +33,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json("Tweet has been created successfully", {
       status: 200,
     });
-  } catch (error: any) {
-    console.error("Error creating tweet:", error);
-    return NextResponse.json({ error: error?.message }, { status: 500 });
+  } catch (error) {
+    console.error("Error creating tweet => ", error);
+    let errorMessage = null;
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    return NextResponse.json(
+      { error: errorMessage ?? "Something went wrong creating the tweet" },
+      { status: 500 }
+    );
   }
 }

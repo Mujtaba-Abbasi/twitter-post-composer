@@ -1,4 +1,4 @@
-import NextAuth from "next-auth";
+import NextAuth, { Token } from "next-auth";
 import TwitterProvider from "next-auth/providers/twitter";
 
 const handler = NextAuth({
@@ -28,7 +28,7 @@ const handler = NextAuth({
         (token.accessTokenExpiration as number) || 0;
 
       if (Date.now() > accessTokenExpiration) {
-        return refreshAccessToken(token);
+        return refreshAccessToken(token as Token);
       }
 
       return token;
@@ -42,8 +42,10 @@ const handler = NextAuth({
 });
 
 //https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: Token) {
   try {
+    if (!token.refreshToken) return { ...token };
+
     const url = "https://api.x.com/2/oauth2/token";
     const body = new URLSearchParams({
       grant_type: "refresh_token",

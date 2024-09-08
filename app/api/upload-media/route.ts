@@ -1,13 +1,13 @@
 import { TwitterApi } from "twitter-api-v2";
-import { fileTypeFromBuffer } from "file-type";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { fileBuffer, accessToken } = body as {
+    const { fileBuffer, accessToken, fileType } = body as {
       fileBuffer: string;
       accessToken: string;
+      fileType: string;
     };
 
     if (!fileBuffer) {
@@ -15,16 +15,6 @@ export async function POST(req: NextRequest) {
     }
 
     const buffer = Buffer.from(fileBuffer, "base64");
-
-    const fileTypeResult = await fileTypeFromBuffer(buffer);
-
-    if (!fileTypeResult) {
-      return NextResponse.json({
-        message: "Unable to determine file type",
-      });
-    }
-
-    const mimeType = fileTypeResult.mime;
 
     /*
       This twitterClient with 0auth 2 access token doesn't create the media with v1 API
@@ -44,7 +34,7 @@ export async function POST(req: NextRequest) {
     */
 
     const mediaId = await twitterClient.v1.uploadMedia(buffer, {
-      mimeType: mimeType,
+      mimeType: fileType ?? "image/png",
     });
 
     return NextResponse.json({ mediaId });

@@ -17,7 +17,10 @@ export const useData = () => {
     const { media, content } = data;
     const file = media?.[0];
 
-    let mediaId = null;
+    console.log("File =>", file);
+
+    const mediaId = null;
+    // let mediaId = null;
 
     // * The oauth 2 doesn't support media uploads, v1 API doesn't allow to upload images on behalf of another user
     // if (file) {
@@ -32,6 +35,7 @@ export const useData = () => {
     //       body: JSON.stringify({
     //         fileBuffer: Buffer.from(fileBuffer).toString("base64"),
     //         accessToken: session.data?.accessToken,
+    // fileType: file?.type
     //       }),
     //     });
 
