@@ -27,7 +27,7 @@ export const TwitterConnect = () => {
         </div>
 
         <Button
-          onClick={() => (isAuthenticated ? signOut() : signIn())}
+          onClick={() => (isAuthenticated ? signOut() : signIn("twitter"))}
           size="lg"
           className="w-full text-md radial-gradient-secondary border-[0.5px] border-gray-600 text-white py-5 rounded-xl"
         >
