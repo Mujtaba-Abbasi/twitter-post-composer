@@ -7,7 +7,9 @@ export const Layout = ({ children }: PropsWithChildren) => {
   return (
     <>
       <Navbar />
-      {children}
+      <main className="flex-grow mt-[65px] md:mt-[60px] lg:mt-[80px] overflow-hidden">
+        {children}
+      </main>
     </>
   );
 };
