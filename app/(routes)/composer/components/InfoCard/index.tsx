@@ -4,8 +4,15 @@ import Image from "next/image";
 import { CheckIcon, Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PostType } from "@/lib/validations";
+import { ConfirmationAlert } from "@/app/elements";
 
-export function InfoCard() {
+export function InfoCard({
+  resetForm,
+  isDisabled,
+}: {
+  resetForm: () => void;
+  isDisabled: boolean;
+}) {
   const {
     register,
     watch,
@@ -23,13 +30,21 @@ export function InfoCard() {
 
   return (
     <div className="flex flex-col pt-12 relative gap-2 md:gap-4 px-2 md:px-8 py-4 bg-[#0F0F0F99] border border-y-gray-600">
-      <Button
-        size="icon"
-        className="h-14 w-14 absolute right-6 top-2 bg-secondary rounded-full self-end"
-        type="button"
-      >
-        <Trash className="text-gray-300 h-8 w-8" />
-      </Button>
+      <ConfirmationAlert
+        trigger={
+          <Button
+            size="icon"
+            className="h-10 w-10 absolute right-6 top-2 bg-secondary rounded-full self-end"
+            type="button"
+            disabled={isDisabled}
+          >
+            <Trash className="text-gray-300 h-6 w-6" />
+          </Button>
+        }
+        description="Are you sure you want to clear out the form?"
+        onConfirm={resetForm}
+      />
+
       <div className="flex flex-col">
         <p className="text-sm md:text-lg text-gray-300">IDEA</p>
         <div className="flex items-center">

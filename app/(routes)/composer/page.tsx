@@ -11,7 +11,7 @@ import {
 import { useData } from "./hooks";
 
 export default function Page() {
-  const { isLoading, methods, onSubmit } = useData();
+  const { isLoading, isFormDisabled, methods, onSubmit, resetForm } = useData();
 
   return (
     <FormProvider {...methods}>
@@ -22,12 +22,16 @@ export default function Page() {
         <Header />
         <div className="flex flex-col lg:flex-row flex-grow">
           <div className="flex flex-col gap-6 flex-grow">
-            <InfoCard />
+            <InfoCard isDisabled={isFormDisabled} resetForm={resetForm} />
             <AccordionSection />
           </div>
           <ChannelPreview />
         </div>
-        <ComposerFooter isLoading={isLoading} />
+        <ComposerFooter
+          isLoading={isLoading}
+          isDisabled={isFormDisabled}
+          resetForm={resetForm}
+        />
       </form>
     </FormProvider>
   );

@@ -26,7 +26,7 @@ export const AccordionInput = ({
       <AccordionContent className="p-4 rounded-b-lg flex flex-col gap-6">
         <p className="text-base">{description}</p>
         {inputElement}
-        <p className="text-sm mt-2 text-red-600">{error}</p>
+        {error && <p className="text-sm mt-2 text-red-600">{error}</p>}
       </AccordionContent>
     </AccordionItem>
   );
