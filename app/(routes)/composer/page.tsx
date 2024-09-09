@@ -11,7 +11,7 @@ import {
 import { useData } from "./hooks";
 
 export default function Page() {
-  const { methods, onSubmit } = useData();
+  const { isLoading, methods, onSubmit } = useData();
 
   return (
     <FormProvider {...methods}>
@@ -27,7 +27,7 @@ export default function Page() {
           </div>
           <ChannelPreview />
         </div>
-        <ComposerFooter />
+        <ComposerFooter isLoading={isLoading} />
       </form>
     </FormProvider>
   );

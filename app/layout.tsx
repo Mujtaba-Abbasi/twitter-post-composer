@@ -4,6 +4,7 @@ import "./globals.css";
 import { Layout } from "@/app/elements";
 import { getServerSession } from "next-auth";
 import { SessionProvider } from "./providers/SessionProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"], weight: "400" });
 const merriweather = Merriweather({
@@ -29,6 +30,7 @@ export default async function RootLayout({
       >
         <SessionProvider session={session}>
           <Layout>{children}</Layout>
+          <Toaster />
         </SessionProvider>
       </body>
     </html>

@@ -1,9 +1,13 @@
-import { PostResolver, PostType } from "@/lib/validations";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { PostResolver, PostType } from "@/lib/validations";
+import { useToast } from "@/hooks/use-toast";
 
 export const useData = () => {
   const session = useSession();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { toast } = useToast();
   const methods = useForm<PostType>({
     defaultValues: {
       title: "",
@@ -14,8 +18,10 @@ export const useData = () => {
   });
 
   const onSubmit = async (data: PostType) => {
-    const { media, content } = data;
-    const file = media?.[0];
+    setIsLoading(true);
+    const { content } = data;
+    // const { media, content } = data;
+    // const file = media?.[0];
 
     const mediaId = null;
     // let mediaId = null;
@@ -74,7 +80,16 @@ export const useData = () => {
     } catch (error) {
       console.error("Error creating tweet:", error);
     }
+    methods.reset({
+      title: "",
+      content: "",
+    });
+    toast({
+      title: "Tweet Created",
+      description: "Tweet created successfully",
+    });
+    setIsLoading(false);
   };
 
-  return { methods, onSubmit };
+  return { isLoading, methods, onSubmit };
 };
