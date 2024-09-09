@@ -1,17 +1,37 @@
-import { TwitterApi } from "twitter-api-v2";
+import { ApiResponseError, TwitterApi } from "twitter-api-v2";
 import { NextRequest, NextResponse } from "next/server";
+import { getToken } from "next-auth/jwt";
+import { getErrorMessage } from "@/app/constants/errors";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
-    const { fileBuffer, accessToken, fileType } = body as {
+    const body = await request.json();
+    const { fileBuffer, fileType } = body as {
       fileBuffer: string;
-      accessToken: string;
       fileType: string;
     };
 
     if (!fileBuffer) {
       return NextResponse.json({ message: "No file buffer provided" });
+    }
+
+    const token = await getToken({ req: request });
+
+    const accessToken = token?.accessToken as string;
+    const accessTokenExpiration = token?.accessTokenExpiration as number;
+
+    if (!accessToken) {
+      return NextResponse.json(
+        { error: "Missing AccessToken" },
+        { status: 400 }
+      );
+    }
+
+    const currentTime = Date.now();
+    if (accessTokenExpiration && currentTime >= accessTokenExpiration) {
+      const errorMessage = getErrorMessage(401);
+
+      return NextResponse.json({ error: errorMessage }, { status: 401 });
     }
 
     const buffer = Buffer.from(fileBuffer, "base64");
@@ -39,7 +59,21 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ mediaId });
   } catch (error) {
-    console.error("Error uploading media to Twitter:", error);
-    return NextResponse.json({ error: "Error uploading media" });
+    let errorMessage = null;
+    let status = 500;
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+
+    if (error instanceof ApiResponseError) {
+      errorMessage = getErrorMessage(error.code) ?? error.data.detail;
+      status = error?.code;
+    }
+
+    return NextResponse.json(
+      { error: errorMessage ?? "Something went wrong creating the tweet" },
+      { status }
+    );
   }
 }

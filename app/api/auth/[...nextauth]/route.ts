@@ -20,11 +20,11 @@ const handler = NextAuth({
       if (account) {
         token.accessToken = account.access_token;
         token.refreshToken = account.refresh_token;
-        token.accessTokenExpiration = token.accessTokenExpiration =
+        token.accessTokenExpiration =
           Date.now() + (account.expires_at ? account.expires_at * 1000 : 0);
       }
 
-      const accessTokenExpiration: number =
+      const accessTokenExpiration =
         (token.accessTokenExpiration as number) || 0;
 
       if (Date.now() > accessTokenExpiration) {
@@ -36,17 +36,19 @@ const handler = NextAuth({
     async session({ session, token }) {
       session.accessToken = token.accessToken as string;
       session.refreshToken = token.refreshToken as string;
+      session.accessTokenExpiration = token.accessTokenExpiration as number;
       return session;
     },
   },
 });
 
 //https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token
+
 async function refreshAccessToken(token: Token) {
   try {
     if (!token.refreshToken) return { ...token };
 
-    const url = "https://api.x.com/2/oauth2/token";
+    const url = "https://api.twitter.com/2/oauth2/token";
     const body = new URLSearchParams({
       grant_type: "refresh_token",
       refresh_token: token.refreshToken,
@@ -72,7 +74,7 @@ async function refreshAccessToken(token: Token) {
     return {
       ...token,
       accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+      accessTokenExpiration: Date.now() + refreshedTokens.expires_in * 1000,
       refreshToken: refreshedTokens.refresh_token ?? token.refreshToken,
     };
   } catch (error) {
