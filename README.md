@@ -15,7 +15,7 @@ e.g.
 You can install bun using
 
 ```bash
-    npm run install -g bun
+    npm install -g bun
 ```
 
 ## Cloning The Repository
