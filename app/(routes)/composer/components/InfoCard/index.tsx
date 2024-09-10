@@ -5,21 +5,18 @@ import { CheckIcon, Edit2, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PostType } from "@/lib/validations";
 import { ConfirmationAlert } from "@/app/elements";
+import { InfoCardProps } from "./props";
 
-export function InfoCard({
-  resetForm,
-  isDisabled,
-}: {
-  resetForm: () => void;
-  isDisabled: boolean;
-}) {
+export function InfoCard({ resetForm, isDisabled }: InfoCardProps) {
   const {
     register,
     watch,
+    setValue,
     formState: { errors },
   } = useFormContext<PostType>();
 
   const title = watch("title");
+  const showPreview = watch("showPreview");
   const [isEditing, setIsEditing] = useState(false);
 
   const iconStyles = "h-4 md:h-6 w-4 md:w-6 text-gray-400";
@@ -28,8 +25,14 @@ export function InfoCard({
     setIsEditing(!isEditing);
   };
 
+  const handleChannelSelect = () => {
+    if (!isDisabled) {
+      setValue("showPreview", true);
+    }
+  };
+
   return (
-    <div className="flex flex-col pt-12 relative gap-2 md:gap-4 px-2 md:px-8 py-4 bg-[#0F0F0F99] border border-y-gray-600">
+    <div className="flex flex-col pt-12 relative gap-2 md:gap-4 px-4 md:px-8 py-4 bg-[#0F0F0F99] border border-y-gray-600">
       <ConfirmationAlert
         trigger={
           <Button
@@ -80,8 +83,10 @@ export function InfoCard({
         <p className="text-sm md:text-lg text-gray-300">CHANNEL</p>
         <Button
           size="icon"
-          variant="ghost"
-          className="flex items-center gap-4 h-16 w-16"
+          variant={showPreview ? "outline" : "ghost"}
+          type="button"
+          className="flex items-center gap-4 w-fit h-fit rounded-full"
+          onClick={handleChannelSelect}
         >
           <Image
             src={"/svgs/twitter.svg"}

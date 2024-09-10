@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PostResolver, PostType } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
@@ -8,23 +8,23 @@ export const useData = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { toast } = useToast();
 
+  const defaultValues = {
+    title: "",
+    content: "",
+    showPreview: false,
+  };
+
   const methods = useForm<PostType>({
-    defaultValues: {
-      title: "",
-      content: "",
-    },
+    defaultValues,
     resolver: PostResolver,
     mode: "onChange",
   });
 
   const isFormDisabled = !Object.keys(methods.formState.dirtyFields)?.length;
 
-  const resetForm = () => {
-    methods.reset({
-      title: "",
-      content: "",
-    });
-  };
+  const resetForm = useCallback(() => {
+    methods.reset(defaultValues);
+  }, []);
 
   const onSubmit = async (data: PostType) => {
     setIsLoading(true);
@@ -49,7 +49,6 @@ export const useData = () => {
           },
           body: JSON.stringify({
             fileBuffer: Buffer.from(fileBuffer).toString("base64"),
-            accessToken: session.data?.accessToken,
             fileType: file?.type,
           }),
         });

@@ -12,12 +12,7 @@ export function AccordionSection() {
   } = useFormContext<PostType>();
 
   return (
-    <Accordion
-      type="multiple"
-      key={errors.content?.message}
-      defaultValue={errors.content?.message ? ["Caption"] : []}
-      className="w-full px-2 md:px-8 py-4 md:py-8"
-    >
+    <Accordion type="multiple" className="w-full px-4 md:px-8 py-4 md:py-8">
       <AccordionInput
         title="Caption"
         description="Type the caption yourself"

@@ -6,3 +6,4 @@ export * from "./ComposeButton";
 export * from "./ImageSelect";
 export * from "./InfoCard";
 export * from "./PostHeader";
+export * from "./TweetCard";

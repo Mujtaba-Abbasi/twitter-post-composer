@@ -18,7 +18,7 @@ export function Header() {
         <ComposeButton className="h-16 w-16" />
         <p>Compose Post</p>
       </div>
-      <div className="flex flex-1 relative py-8 px-2 md:px-8 lg:py-0 bg-faded">
+      <div className="flex flex-1 relative py-8 px-4 md:px-8 lg:py-0 bg-faded">
         <div className="flex flex-col gap-4 self-center w-full">
           <p className="text-xl uppercase">
             <span className="text-gray-400">{day}, </span>
