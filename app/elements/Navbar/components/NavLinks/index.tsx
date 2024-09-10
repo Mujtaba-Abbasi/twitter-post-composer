@@ -3,11 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
+import { signOut } from "next-auth/react";
 import { ExitIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/app/constants";
-import { signOut } from "next-auth/react";
+import { ConfirmationAlert } from "@/app/elements/ConformationAlert";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export const NavLinks = ({
   styles,
@@ -68,14 +69,19 @@ export const NavLinks = ({
                 isExpanded ? "block" : "hidden"
               }`}
             >
-              <Button
-                size="icon"
-                variant="ghost"
-                className="transition-all duration-300 ease-in-out"
-                onClick={onLogout}
-              >
-                <ExitIcon className="h-6 w-6" />
-              </Button>
+              <ConfirmationAlert
+                trigger={
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="transition-all duration-300 ease-in-out"
+                  >
+                    <ExitIcon className="h-6 w-6" />
+                  </Button>
+                }
+                onConfirm={onLogout}
+                description="Are you sure you want to logout?"
+              />
               <p className="text-lg font-bold whitespace-nowrap overflow-hidden">
                 {data?.user?.name?.split(" ")?.[0]}
               </p>
@@ -87,13 +93,10 @@ export const NavLinks = ({
               className="h-12 w-fit transition-transform duration-300 ease-in-out"
               size="icon"
             >
-              <Image
-                src={data?.user?.image ?? ""}
-                alt="profile"
-                height={50}
-                width={50}
-                className="rounded-full"
-              />
+              <Avatar className="h-12 w-12">
+                <AvatarImage src={data?.user?.image ?? ""} alt="User Avatar" />
+                <AvatarFallback>{data?.user?.name?.slice(0, 1)}</AvatarFallback>
+              </Avatar>
             </Button>
           </div>
         </div>

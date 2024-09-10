@@ -42,7 +42,10 @@ const handler = NextAuth({
   },
 });
 
-//https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token
+/* 
+  https://developer.x.com/en/docs/authentication/oauth-2-0/user-access-token
+  https://next-auth.js.org/v3/tutorials/refresh-token-rotation
+*/
 
 async function refreshAccessToken(token: Token) {
   try {

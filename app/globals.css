@@ -8,7 +8,15 @@
 }
 
 .bg-gradient {
-  @apply bg-gradient-to-r from-[#7F4FAB] to-[#EC9EA5];
+  background: linear-gradient(
+    90deg,
+    rgba(135, 85, 216, 0.5) 0%,
+    rgba(246, 157, 123, 0.5) 100%
+  );
+}
+
+.footer {
+  @apply fixed bottom-0 left-0 right-0 w-full flex items-center px-12 min-h-[70px] border-t border-gray-600 bg-secondary;
 }
 
 .radial-gradient {

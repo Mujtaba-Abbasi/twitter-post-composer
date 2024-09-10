@@ -1,5 +1,5 @@
 export const getErrorMessage = (errorCode: number) => {
-  let errorMessage;
+  let errorMessage = "Something went wrong";
 
   switch (errorCode) {
     case 401:
