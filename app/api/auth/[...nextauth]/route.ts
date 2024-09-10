@@ -27,7 +27,7 @@ const handler = NextAuth({
       const accessTokenExpiration =
         (token.accessTokenExpiration as number) || 0;
 
-      if (Date.now() > accessTokenExpiration) {
+      if (Date.now() > accessTokenExpiration - 60000) {
         return refreshAccessToken(token as Token);
       }
 
