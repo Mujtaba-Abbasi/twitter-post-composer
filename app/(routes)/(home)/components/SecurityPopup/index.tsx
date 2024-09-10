@@ -24,10 +24,7 @@ export const SecurityPopup = () => {
   if (!isVisible) return null;
 
   return (
-    <div
-      className="fixed bottom-5 md:right-5 bg-teal-950 lg:bg-transparent rounded-xl"
-      style={{ zIndex: 50 }}
-    >
+    <div className="absolute bottom-0 z-50 md:right-5 bg-teal-950 lg:bg-transparent rounded-xl">
       <Alert className="w-full md:w-[500px] radial-gradient-green border-green-950 border-2 py-2 md:py-6 px-2 md:px-8 text-white rounded-xl">
         <div className="flex items-center gap-6">
           <Image src="/svgs/shield.svg" alt="shield" height={45} width={45} />

@@ -1,12 +1,9 @@
 import Image from "next/image";
-import {
-  SecurityPopup,
-  TwitterConnect,
-} from "@/app/(routes)/(home)/components";
+import { HomeFooter, SecurityPopup, TwitterConnect } from "./components";
 
 export default function Home() {
   return (
-    <div className="w-full min-h-full pt-20 flex items-center justify-center relative">
+    <div className="w-full min-h-full pt-20 flex items-center justify-center relative mb-[70px]">
       <div className="flex items-center flex-col gap-10 p-4">
         <Image src="/svgs/person.svg" height={256} width={270} alt="person" />
         <div className="flex gap-2">
@@ -30,6 +27,7 @@ export default function Home() {
         <TwitterConnect />
         <SecurityPopup />
       </div>
+      <HomeFooter />
     </div>
   );
 }

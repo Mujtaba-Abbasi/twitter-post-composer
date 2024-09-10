@@ -9,7 +9,7 @@ export const TwitterConnect = () => {
   const isAuthenticated = session.status === "authenticated";
 
   return (
-    <Card className="self-center lg:self-start min-w-[300px] h-[250px] radial-gradient  rounded-xl border-[0.5px] border-gray-600">
+    <Card className="self-center lg:self-start min-w-[300px] h-[250px] radial-gradient rounded-xl border-[0.5px] border-gray-600">
       <CardContent className="flex flex-col h-full justify-between items-center">
         <div className="flex flex-col gap-2 h-full items-center justify-center">
           <Image
