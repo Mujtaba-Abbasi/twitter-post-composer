@@ -15,6 +15,7 @@ const PostSchema = z.object({
       if (!file) return true;
       return file instanceof File && file.type.startsWith("image/");
     }, "Media must be an image file"),
+  showPreview: z.boolean().optional(),
 });
 
 export type PostType = z.infer<typeof PostSchema>;
